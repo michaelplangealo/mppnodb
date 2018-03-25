@@ -1,29 +1,43 @@
 import React, { Component } from "react";
 import axios from "axios";
-// import FavButton from "../FavButton/FavButton";
+import FavButton from "../FavButton/FavButton";
+import "./QuoteGenerator.css";
 
 class QuoteGenerator extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      quote: {},
+      quote: "",
       favoriteQuotes: []
     };
+    this.newQuote = this.newQuote.bind(this);
   }
   componentDidMount() {
-    axios.get("/api/favorites").then(res => {
-      this.setState({ quote: res.data });
-      console.log(this.state.quote);
-    });
+    this.newQuote();
   }
 
-  // addFavorite() {
-  //   axios.post("/api/favorites", { quote });
-  // }
+  newQuote() {
+    axios
+      .get("api/favorites/quotes")
+      .then(response => {
+        this.setState({ quote: response.data });
+      })
+      .catch(() => this.newQuote);
+  }
 
   render() {
-    return <p> Hi </p>;
+    const { quote } = this.state;
+    return (
+      <grid>
+        <header className="tippytop">
+          <div className="white-space">
+            <p> MAKE QUOTING GREAT AGAIN</p>
+          </div>
+        </header>
+        <div className="quote-container">{quote}</div>
+      </grid>
+    );
   }
 }
 

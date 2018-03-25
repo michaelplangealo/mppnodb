@@ -1,0 +1,19 @@
+.tippytop {
+  height: 20vh;
+  width: 100%;
+  background-color: black;
+
+  font-size: 4em;
+}
+.white-space {
+  font-family: "Times New Roman", Times, serif;
+  color: white;
+  font-size: 80px;
+  text-align: center;
+}
+.quote-container {
+  border-style: solid;
+  border-color: black;
+  height: 30vh;
+  width: 100%;
+}
