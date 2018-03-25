@@ -5,7 +5,7 @@ const tCtrl = require("./controllers/tCtrl");
 app.use(json());
 
 //endpoints
-app.get("/api/favorites", tCtrl.getQuotes);
+app.get("/api/favorites/quotes", tCtrl.getQuotes);
 // app.get("api/favorites", tCtrl.getFavorites);
 // app.post("/api/favorites/", tCtrl.addFavorites);
 // app.put("/api/favorites/:id", tCtrl.updateTitle);
