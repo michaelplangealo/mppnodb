@@ -12,6 +12,7 @@ class QuoteGenerator extends Component {
       favoriteQuotes: []
     };
     this.newQuote = this.newQuote.bind(this);
+    this.addToFavorites = this.addToFavorites.bind(this);
   }
   componentDidMount() {
     this.newQuote();
@@ -25,18 +26,38 @@ class QuoteGenerator extends Component {
       })
       .catch(() => this.newQuote);
   }
+  getFavorites() {
+    axios
+      .get("/api/favorites")
+      .then(response => this.setState({ favoriteQuotes: response.data }))
+      .catch(error => console.log(error));
+  }
+  addToFavorites() {
+    let { quote, favoriteQuotes } = this.state;
+    axios
+      .post("/api/favorites", { quote })
+      .then(response => this.setState({ favoriteQuotes: response.data }));
+  }
 
   render() {
     const { quote } = this.state;
     return (
-      <grid>
+      <div>
         <header className="tippytop">
           <div className="white-space">
             <p> MAKE QUOTING GREAT AGAIN</p>
           </div>
         </header>
-        <div className="quote-container">{quote}</div>
-      </grid>
+        <div className="quote-container">
+          <div className="words-of-wisdom">{quote}</div>
+        </div>
+        <div className="buttons-console">
+          <button className="add-button" onClick={() => this.newQuote()}>
+            MAKE AMERICA GREAT AGAIN
+          </button>
+          <FavButton add={this.addToFavorites} />
+        </div>
+      </div>
     );
   }
 }
