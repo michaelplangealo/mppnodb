@@ -6,10 +6,10 @@ app.use(json());
 
 //endpoints
 app.get("/api/favorites/quotes", tCtrl.getQuotes);
-// app.get("api/favorites", tCtrl.getFavorites);
-// app.post("/api/favorites/", tCtrl.addFavorites);
-// app.put("/api/favorites/:id", tCtrl.updateTitle);
-// app.delete("api/favorites/:id", tCtrl.deleteFavorite);
+app.get("/api/favorites", tCtrl.getFavorites);
+app.post("/api/favorites/", tCtrl.addFavorite);
+app.put("/api/favorites/:id", tCtrl.updateTitle);
+app.delete("/api/favorites/:id", tCtrl.deleteFavorite);
 
 // listening port
 const port = 3002;

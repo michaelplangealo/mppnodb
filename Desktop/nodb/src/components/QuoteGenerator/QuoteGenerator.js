@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import FavButton from "../FavButton/FavButton";
+
 import "./QuoteGenerator.css";
+import FavList from "../FavList/FavList";
 
 class QuoteGenerator extends Component {
   constructor(props) {
@@ -12,17 +14,21 @@ class QuoteGenerator extends Component {
       favoriteQuotes: []
     };
     this.newQuote = this.newQuote.bind(this);
+    this.getFavorites = this.getFavorites.bind(this);
     this.addToFavorites = this.addToFavorites.bind(this);
+    this.deleteFromList = this.deleteFromList.bind(this);
   }
   componentDidMount() {
     this.newQuote();
+    this.getFavorites();
+    console.log(this.state);
   }
-
   newQuote() {
     axios
-      .get("api/favorites/quotes")
+      .get("/api/favorites/quotes")
       .then(response => {
         this.setState({ quote: response.data });
+        console.log(response.data);
       })
       .catch(() => this.newQuote);
   }
@@ -34,28 +40,45 @@ class QuoteGenerator extends Component {
   }
   addToFavorites() {
     let { quote, favoriteQuotes } = this.state;
+
     axios
       .post("/api/favorites", { quote })
       .then(response => this.setState({ favoriteQuotes: response.data }));
+    //  this.setState({ favoriteQuotes: response.data }));
+  }
+  deleteFromList(quote) {
+    axios
+      .delete(`/api/favorites/${quote}`)
+      .then(response => this.setState({ favoriteQuotes: response.data }))
+      .catch(error => console.log(error));
   }
 
   render() {
-    const { quote } = this.state;
+    const { quote, favoriteQuotes } = this.state;
+    console.log(favoriteQuotes);
     return (
       <div>
-        <header className="tippytop">
-          <div className="white-space">
-            <p> MAKE QUOTING GREAT AGAIN</p>
+        <div>
+          <header className="tippytop">
+            <div className="white-space">
+              <p> MAKE QUOTING GREAT AGAIN</p>
+            </div>
+          </header>
+          <div className="quote-container">
+            <div className="words-of-wisdom">{quote}</div>
           </div>
-        </header>
-        <div className="quote-container">
-          <div className="words-of-wisdom">{quote}</div>
+          <div className="buttons-console">
+            <button className="add-button" onClick={() => this.newQuote()}>
+              MAKE AMERICA GREAT AGAIN
+            </button>
+            <FavButton add={this.addToFavorites} />
+          </div>
         </div>
-        <div className="buttons-console">
-          <button className="add-button" onClick={() => this.newQuote()}>
-            MAKE AMERICA GREAT AGAIN
-          </button>
-          <FavButton add={this.addToFavorites} />
+        <div>
+          <FavList
+            favoriteQuotes={favoriteQuotes}
+            delete={this.deleteFromList}
+          />
         </div>
       </div>
     );

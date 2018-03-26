@@ -7,7 +7,6 @@ class FavList extends Component {
     super(props);
 
     this.state = {
-      favoritesList: [],
       title: "WORDS OF WISDOM"
     };
     this.updateTitle = this.updateTitle.bind(this);
@@ -19,29 +18,27 @@ class FavList extends Component {
       .catch(error => console.log(error));
   }
   updateTitle() {
-    swal({
-      text: "Enter new title here:",
-      input: "text"
-    }).then(result => {
-      axios
-        .put(`/api/favorites/${result.value}`)
-        .then(
-          response =>
-            response.data !== "undefined"
-              ? this.setState({ title: response.data })
-              : this.setState({ title: this.state.title })
-        )
-        .catch(error => console.log(error));
-    });
+    alert("WE HAVE THE BEST TITLES");
+    // axios
+    //   .put(`/api/favorites/${result.value}`)
+    //   .then(
+    //     response =>
+    //       response.data !== "undefined"
+    //         ? this.setState({ title: response.data })
+    //         : this.setState({ title: this.state.title })
+    //   )
+    //   .catch(error => console.log(error));
   }
 
   render() {
-    let favorites = this.props.favorteQuotes.map((e, i) => (
-      <div key={i} className="fav-item" onClick={() => this.props.delete(i)} />
+    let favorites = this.props.favoriteQuotes.map((e, i) => (
+      <div key={i} className="fav-item" onClick={() => this.props.delete(i)}>
+        <p>{e}</p>
+      </div>
     ));
 
     return (
-      <div className="favorites">
+      <div className="favorites-listing">
         <div className="title" onClick={() => this.updateTitle()}>
           <div>{this.state.title}</div>
         </div>
@@ -50,3 +47,4 @@ class FavList extends Component {
     );
   }
 }
+export default FavList;

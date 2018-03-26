@@ -8,23 +8,28 @@ module.exports = {
     axios
       .get("https://api.whatdoestrumpthink.com/api/v1/quotes/random")
       .then(response => {
-        console.log(res.data);
         ranQuote = response.data.message;
         res.status(200).send(ranQuote);
-      });
+      })
+      .catch(error => error);
   },
   getFavorites: (req, res) => {
     res.status(200).json(favorites);
   },
 
   addFavorite: (req, res) => {
-    favorites.push;
+    console.log(req.body);
+
+    favorites.push(req.body.quote);
+    res.status(200).json(favorites);
   },
   updateTitle: (req, res) => {
     title = req.params.id;
     res.status(200).json(title);
   },
   deleteFavorite: (req, res) => {
+    console.log(req.params.id);
+
     favorites.splice(req.params.id, 1);
     res.status(200).json(favorites);
   }

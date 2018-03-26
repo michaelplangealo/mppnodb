@@ -1,7 +1,8 @@
 import React from "react";
+import "./FavButton.css";
 
-const FavoriteButton = props => {
+const FavButton = props => {
   return <button className="favbtn" onClick={() => props.add()} />;
 };
 
-export default FavoriteButton;
+export default FavButton;
